@@ -16,6 +16,15 @@ function togglePlay() {
     video.pause();
   }
 }
+
+function spacePlay(e) {
+  if (video.paused && e.keyCode == 32) {
+    video.play();
+  } else {
+    video.pause();
+  }
+}
+
 function updateButton() {
   const icon = this.paused ? "►" : "❚❚";
   toggle.textContent = icon;
@@ -50,6 +59,7 @@ function bigScreen() {
 
 /* Hook up the event listeners */
 video.addEventListener("click", togglePlay);
+window.addEventListener("keydown", e => spacePlay(e));
 video.addEventListener("play", updateButton);
 video.addEventListener("pause", updateButton);
 video.addEventListener("timeupdate", handleProgress);
