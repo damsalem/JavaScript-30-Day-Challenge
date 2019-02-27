@@ -20,7 +20,7 @@ function togglePlay() {
 function spacePlay(e) {
   if (video.paused && e.keyCode == 32) {
     video.play();
-  } else {
+  } else if (video.play && e.keyCode == 32) {
     video.pause();
   }
 }
@@ -38,6 +38,7 @@ let isDragging = false;
 
 function handleRangeUpdate() {
   if (!isDragging) return; // Stop the function when they're not mouseDown
+  console.log(`${this.name}: ${this.value}`);
   video[this.name] = this.value;
 }
 
@@ -65,18 +66,25 @@ video.addEventListener("pause", updateButton);
 video.addEventListener("timeupdate", handleProgress);
 toggle.addEventListener("click", togglePlay);
 skipButtons.forEach(button => button.addEventListener("click", skip));
+
 ranges.forEach(range => range.addEventListener("mousemove", handleRangeUpdate));
 ranges.forEach(range =>
-  range.addEventListener("mousedown", () => (isDragging = true))
+  range.addEventListener("mousedown", () => {
+    isDragging = true;
+    handleRangeUpdate();
+  })
 );
 ranges.forEach(range =>
   range.addEventListener("mouseup", () => (isDragging = false))
 );
-// Functions same as #52 with range
-// Takes the event XY data and if isDragging
-// Runs scrub() passing in event data
+
+// Functions same as ranges
+// Takes the event XY data and if isDragging (true) runs scrub() passing in event
 progress.addEventListener("mousemove", e => isDragging && scrub(e));
-progress.addEventListener("mousedown", () => (isDragging = true));
+progress.addEventListener("mousedown", e => {
+  isDragging = true;
+  scrub(e);
+});
 progress.addEventListener("mouseup", () => (isDragging = false));
 
 fullScreen.addEventListener("click", bigScreen);
