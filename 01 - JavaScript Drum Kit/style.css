@@ -12,6 +12,16 @@ html {
   font-family: sans-serif;
 }
 
+h1 {
+  position: absolute;
+  top: 30%;
+  left: 0;
+  right: 0;
+  font-size: 3em;
+  color: #fff;
+  text-align: center;
+}
+
 .keys {
   display: flex;
   flex: 1;

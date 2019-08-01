@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <h1>Tap on the corresponding keys to make a beat!</h1>
     <div class="keys">
       <div data-key="65" class="key">
         <kbd>A</kbd>
@@ -56,6 +57,21 @@
     <audio data-key="76" src="sounds/boom.wav"></audio>
 
     <script>
+      const clickables = document.querySelectorAll(`.key[data-key]`);
+
+      function clicking(e) {
+        console.log("clicked");
+        const audio = document.querySelector(
+          `audio[data-key="${e.path[1].dataset.key}"]`
+        );
+        // const button = e.srcElement.dataset.key;
+        if (!audio) return;
+        audio.currentTime = 0;
+        audio.play();
+      }
+
+      clickables.forEach(button => button.addEventListener("click", clicking));
+
       window.addEventListener("keydown", playSound);
 
       function playSound(e) {
